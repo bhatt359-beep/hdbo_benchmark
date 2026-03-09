@@ -156,6 +156,10 @@ def load_solver_class(
             )
 
             return VanillaBOHvarfner, solver_kwargs
+        case "line_bo":
+            from poli_baselines.solvers.bayesian_optimization.line_bayesian_optimization import (
+                LineBO,
+            )
         case "random_line_bo":
             from poli_baselines.solvers.bayesian_optimization.line_bayesian_optimization import (
                 LineBO,
