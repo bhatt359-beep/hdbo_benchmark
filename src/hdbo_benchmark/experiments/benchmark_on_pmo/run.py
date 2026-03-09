@@ -31,7 +31,7 @@ from hdbo_benchmark.utils.logging.idempotence_of_experiments import (
     experiment_has_already_run,
 )
 from hdbo_benchmark.utils.logging.uncommited_changes import has_uncommitted_changes
-from hdbo_benchmark.utils.logging.wandb_observer import initialize_observer
+from hdbo_benchmark.utils.logging.wandb_observer import ObserverConfig, initialize_observer
 
 torch.set_default_dtype(torch.float32)
 
@@ -130,17 +130,24 @@ def main(
     )
     f = problem.black_box
 
-    obs = initialize_observer(
+    observer_config = ObserverConfig(
         experiment_name="benchmark_on_pmo",
-        f=f,
         function_name=function_name,
         solver_name=solver_name,
         n_dimensions=latent_dim,
         seed=seed,
-        experiment_id=experiment_id,
         max_iter=max_iter,
         strict_on_hash=strict_on_hash,
-        tag=tag,
+        force_run=force_run,
+        experiment_id=experiment_id,
+        wandb_mode="online",
+        tags=[tag],
+    )
+
+    obs = initialize_observer(
+        problem=problem,
+        observer_config=observer_config,
+        supervised_data=(np.array([]), np.array([])),
     )
     f.set_observer(obs)
 
