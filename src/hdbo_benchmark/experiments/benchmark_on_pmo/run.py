@@ -140,7 +140,7 @@ def main(
         strict_on_hash=strict_on_hash,
         force_run=force_run,
         experiment_id=experiment_id,
-        wandb_mode="online",
+        wandb_mode="disabled",
         tags=[tag],
     )
 
